@@ -1,0 +1,24 @@
+/**
+ * CSS Stylesheet for printing
+ *
+ * @package templateSystem
+ * @copyright Copyright 2003-2005 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: print_stylesheet.css 9 2008-04-10 19:21:52Z sanguisdex $
+*/
+body {background-color: #ffffff;}
+#contentMainWrapper {background-color: #ffffff;}
+.messageStackWarning, #navMainWrapper, .navMainSearch, #navCatTabsWrapper, #navEZPagesTop, 
+#navColumnOne.columnLeft, #navColumnTwo.columnRight, 
+#navSupp, .banners, #navBreadCrumb, .buttonRow { display: none;}
+
+
+/* Other relevant properties for paged media:
+- page-break-before
+- page-break-after
+- page-break-inside
+- orphans
+- widows
+*/
+
