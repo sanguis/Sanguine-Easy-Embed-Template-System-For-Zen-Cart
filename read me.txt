@@ -1,3 +1,108 @@
+<<<<<<< .mine
+//+--------------------------------------------------------+
+//| Sanguine Easy Embed Template - Zen Cart                | 
+//|Support Site:                                           |
+//|http://code.google.com/p/sanguineasyembedtemplatesystem |
+//|Released under the GPL v2                               |
+//|(c)Sanguis Developmet 2008                              |
+//|PLease consider donating to:                            |
+//|josh@sanguisdevelopment.com                             |
+//|via Pay Pal                                             |
+//+--------------------------------------------------------+
+#$Id: read me.txt 10 2008-04-12 15:11:30Z sanguisdex $
+
+The Sanguine Easy embed template for Zen Cart. If this program makes you money please consider donating to josh@sanguisdevelopment.com, via Pay Pal in order to offset the time loss that happens in the maintaining and supporting of this program.
+Notice that the style sheet here is from the site I set up with this program (all though I have made it a little more neutral. If you want a fresh sheet consider over writing it with the style sheet from the template_default.
+
+JOsh Beaureagard (sanguisdesign, on the Zen Cart forum.)
+sanguisdevelopment.com
+
+CONTENTS
+I.	Install requirements
+II.	Install Instructions (as provided by urbanx, and modified over time)
+III. Road Map to version 2.
+IV. Change Log
+V.	Module Support
+
+I.) ________________________INSTALL REQUIREMENTS _________________________
+	A Zen Cart 1.3.x install
+	A a working mark up file (html layout) that you would like to embed your Zen cart into.
+	Basic php and html syntax knowledge.
+	A willingness to worth through any issues and learn.
+II.) ________________________INSTALL INSTRUCTIONS _________________________
+________________________Originally Provided by Urbanx at_________________
+http://www.zen-cart.com/forum/showpost.php?p=456075&postcount=83
+
+	1. Create an html file in your web site that you would like to embed Zen cart into. Let's call it shop.html and let's put it in the root of our web site:
+	- we can access this file from http://www.foo.com/shop.html
+	- the file is found on the server at /path_to_your_files/shop.html
+
+	2. Some Where in your html file, you need to put three very specific lines of text. WHERE you put them is up to you, but they must be together and they must be exact. The thing to know is that it goes in the body of the file, and that it goes where you want your Zen Cart to go.
+
+		<!-- START EMBED -->
+		<!-- END EMBED -->
+
+	3. Install Zen Cart. I'm going to assume that you installed Zen Cart in a directory called Zen. Go to http://www.foo.com/Zen and do all the Zen installation stuff.
+
+		DO NOT GO ANY FURTHER UNTIL YOU HAVE ZEN WORKING PROPERLY WITH THE DEFAULT TEMPLATE.
+
+	4. Once you have Zen Cart up and running, it is time to install the new template. The sang_embed template installs like any other template. Please see the wiki if you need basic assistance with installing a template in Zen Cart (or better yet, buy the Zen book, you won't regret it). Essentially, you copy the template files to your web server. Most will go in Zen/includes/templates/sang_embed, but the main thing is to match the folder structure in the download. Don't forget to "turn on" the sang_embed template in the admin.
+
+	5. Make ONE change in the file named easy_embed/config.php. You can find it at /path_to_your_files/Zen/includes/templates/sang_embed/sang_embed/config.php
+
+		find the line that begins with "$this->templateFile" (it is line 15) and change it so that it refers to the html file you created in step 1. In our example, it would be:
+	
+		$this->templateFile = '/path_to_your_files/shop.html';
+		Other examples can be:
+			//if your mark up file is located in the same folder as this file.
+			$this->templateFile = DIR_FS_CATALOG . DIR_WS_TEMPLATES. 'sang_embed/common/' . 'FILENAME'; 
+			//if your mark up file is located in the Zen Cart root.
+			$this->templateFile = DIR_FS_CATALOG . 'FILENAME'; 
+			//other wise fill this in
+			$this->templateFile = 'YOUR_MARKUP_FILE_WITH_THE_FULL_PATH';
+	
+		THIS IS THE KEY. IT TELLS ZEN CART THAT IT MUST EMBED ITSELF IN THAT FILE.
+	
+	6. (optional)
+		in the config file there are options on lines 21-28 the top 4 are true or false and have been set already for Zen cart and SHOULD NOT BE CHANGED.
+		How ever if you want to add a modifier to your links and images so that they point to the correct files add a value there.
+		An example would be if your template was based on files that existed in the html root dir you links would point to "/PAGE.html", and your Zen Cart is installed in /Zen then you would want to rewrite you links to be "../" so that they pointed to a parent directory.
+	7. Go test it by going to http://www.foo.com/Zen
+
+	8. Revel in your brilliance.
+	
+III.)_____________________________________Road Map to version 3.______________________________
+	Possible web interface in admin section.
+	Liquid layout
+	Embed Side boxes any where.
+	Add ezpages menu
+
+IV.)__________________________________________Change log:________________________________ 
+____________________________________________(newest first)_________________________________
+	2.0 Totally rewrote the magic.php file so that its is now a php class.
+		Added options for the config.
+		Revised readme.txt file.
+		Moved Files from templates/sang_embed/common to templates/sang_embed/sang_embed/ congig.php and magic.php.
+		Updated Zen cart template files to reflect new class fuctions.
+	1.2
+		Updated readme.txt file to include install requirements, and support locations.
+		Split divided the config file in to two files. To separate the configuration form the process.
+		embed_config.php is only for configuration  declaration.  embed_magic.php is for the processing of
+		the script.
+		Added examples to the embed_config.php
+		html_header. Now gets the embed_magic.php instead of the config.
+		Merged language and template files with ZC 1.3.8a release.
+	1.11 
+		Updated readmetxt file to include urbanix's install instructions.
+	in1.1 
+		tpl_footer.php and tpl_html_header.php removed body includes moved to tpl_main_page.php
+		Added language files and folders that I find I am always having to change, and make copies of.
+		Added a tpl_products_info.page that works more with/ the provided style sheet. In html_header.php.
+		On line 18 replaced "require_once 'embed_config.php';" with require_once($template->get_template_dir('embed_config.php',DIR_WS_TEMPLATE, $current_page_base,'common'). '/embed_config.php'); to make it more over rides complaint
+		
+V.)__________________________________________Additional Support:________________________________
+	Community support can be obtained at  http://www.zen-cart.com/forum/showpost.php?p=396372
+	commercial support can be obtained at http://www.sanguisdevelopment.com=======
 //+-------------------------------------+
 //| Sanguine Embed Template             |
 //|for Zen Cart v2.3.x                  |
@@ -83,4 +188,4 @@ ____________________________________________(newest first)______________________
 		
 V.)__________________________________________Addtioanl Support:________________________________
 	Community support can be obtained at  http://www.zen-cart.com/forum/showpost.php?p=396372
-	Commercal support can be obtained at http://www.sanguisdevelopment.com
+	Commercal support can be obtained at http://www.sanguisdevelopment.com>>>>>>> .r10
