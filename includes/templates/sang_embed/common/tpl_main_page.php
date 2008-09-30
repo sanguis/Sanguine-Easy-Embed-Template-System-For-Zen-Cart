@@ -34,6 +34,7 @@
  * @package templateSystem
  * @copyright Copyright 2003-2007 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
+ * @copyright Portions Copyright 2008 Sanguis Development
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: tpl_main_page.php 9 2008-04-10 19:21:52Z sanguisdex $
  */
@@ -53,8 +54,8 @@
 <body id="<?php echo $body_id . 'Body'; ?>"<?php if($zv_onload !='') echo ' onload="'.$zv_onload.'"'; ?>>
 
 <!--bof- easy embed template top-->
-<?php	
-	echo $sitetemplate_top;
+<?php
+echo $sangEmbed->bodyTop();
 ?>
 <!--bof- easy embed template top-->
 
@@ -193,6 +194,6 @@ if (!isset($flag_disable_right) || !$flag_disable_right) {
 ?>
 <!--eof- banner #6 display -->
 <!--bof- easy embed template bottom-->
-<?php echo $sitetemplate_bottom; ?>
+<?php echo $sangEmbed->bottom() ?>
 <!--bof- easy embed template  bottom-->
 </body>

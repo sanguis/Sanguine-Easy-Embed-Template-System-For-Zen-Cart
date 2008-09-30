@@ -7,6 +7,7 @@
  * @package templateSystem
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
+ * @copyright Portions Copyright 2008 Sanguis Development
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: html_header.php 24 2008-06-26 18:08:47Z sanguisdex $
  */
@@ -14,8 +15,9 @@
  * load the module for generating page meta-tags
  */
 require(DIR_WS_MODULES . zen_get_module_directory('meta_tags.php'));
-//Sanguis Development includes template information 
+//SangEmed: inclugding magic file and starting sang embed class.
 require_once($template->get_template_dir('magic.php',DIR_WS_TEMPLATE, $current_page_base,'easy_embed'). '/magic.php');
+$sangEmbed = new sangEmbed;
 /**
  * output main page HEAD tag and related headers/meta-tags, etc
  */
@@ -118,7 +120,9 @@ require_once($template->get_template_dir('magic.php',DIR_WS_TEMPLATE, $current_p
  */
     require($page_directory . '/' . $value); echo "\n";
   }
-echo $sitetemplate_head;
+echo "<!-- BOF: SANG EMBED HTML HEAD INFO -->\n";  
+echo $sangEmbed->insideHead();
+echo "<!-- EOF: SANG EMBED HTML HEAD INFO -->\n";  
 //DEBUG: echo '<!-- I SEE cat: ' . $current_category_id . ' || vs cpath: ' . $cPath . ' || page: ' . $current_page . ' || template: ' . $current_template . ' || main = ' . ($this_is_home_page ? 'YES' : 'NO') . ' -->';
 ?>
 </head>

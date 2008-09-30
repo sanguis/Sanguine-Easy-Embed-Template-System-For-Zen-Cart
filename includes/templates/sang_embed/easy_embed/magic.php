@@ -1,62 +1,93 @@
 <?php
-//+-------------------------------------+
-//| Sanguine Embed Template             |
-//|for zen cart v2.3.x                    |
-//|(c)Sanguis Developmet 2008           |
-//|josh@sanguisdevelopment.com              |
-//||
-//+-------------------------------------|
-#$Id: magic.php 24 2008-06-26 18:08:47Z sanguisdex $
+//+--------------------------------------------------------+
+//| Sanguine Easy Embed Template: Zen Cart                           | 
+//|Support Site:                                           |
+//|http://code.google.com/p/sanguineasyembedtemplatesystem |
+//|Released under the GPL v2                               |
+//|(c)Sanguis Developmet 2008                              |
+//|PLease consider donating to:                            |
+//|josh@sanguisdevelopment.com                             |
+//|via Pay Pal                                       |
+//+--------------------------------------------------------+
+#$Id: magic.php 8 2008-09-11 00:16:37Z sanguisdex $
 
-//geting configureation data
-require_once($template->get_template_dir('embed_config.php',DIR_WS_TEMPLATE, $current_page_base,'common'). '/embed_config.php');
+class sangEmbed {
+	function __construct() {
+		require_once (dirname(__FILE__) .'/config.php');
+		//todo add and altennative if the template file is not found
+		$file = fopen($this->templateFile, 'r');
+		$this->template = fread($file, filesize($this->templateFile));
+		fclose($file);
+		ob_start();
+		eval ('?>' . $this->template);
+		$this->template = ob_get_clean();
+		// applying whole code modifications
+		if ($this->options['stripDocType'] == true) $this->stripDocType();
+		if ($this->options['stripMetaData'] == true) $this->stripMetaData();
+		if ($this->options['stripHtmlTags'] == true) $this->stripHtmlTags();
+		if ($this->options['stripTitleTag'] == true) $this->stripTitleTag();
+		if (!empty($this->options['linkPathMod'])) $this->linkPathMod($path);
+		if (!empty($this->options['imgPathMod'])) $this->imgPathMod($path);
+	}  
 
-//todo add and altennative if the template file is not found
-$file = fopen($zc_temp, 'r');
-$sitetemplate = fread($file, filesize($zc_temp));
+	//striping tags
+	function stripDocType() {
+		$this->template=preg_replace('/<!DOCTYPE.*?>\n/si', '', $this->template);
+	}
+	function stripMetaData() {
+		$this->template=preg_replace('/<meta.*?>\n/si', '', $this->template);
+	}
+	function stripHtmlTags(){
+		$this->template=preg_replace('/<html.*?>\n/si', '', $this->template);
+	}
+	function stripTitleTag(){
+		$this->template=preg_replace('/<title.*?title>\n/si', '', $this->template);
+	}
 
-fclose($file);
+	//modifying link paths
+	function linkPathMod($path) {
+		$this->template=preg_replace('/href="\//si', 'href='.$path. '', $this->template);
+		$this->template=preg_replace('/href=".*http/si', 'href="http', $this->template);
+	}
 
-ob_start();
-eval ('?>' . $sitetemplate);
-  $sitetemplate = ob_get_clean();
-
-
-//strip some duplicate tags that zencart manages itself 
-$sitetemplate=preg_replace('/<!DOCTYPE.*?>/si', '', $sitetemplate);
-$sitetemplate=preg_replace('/<meta.*?>/si', '', $sitetemplate);
-$sitetemplate=preg_replace('/<html.*?>/si', '', $sitetemplate);
-$sitetemplate=preg_replace('/<title.*?title>/si', '', $sitetemplate);
-
-
-//JTS replace hrefs to point above catalog, but not the href for the style sheet! or http links!
-$sitetemplate=preg_replace('/href="/si', 'href="../', $sitetemplate);
-$sitetemplate=preg_replace('/href="..\/..\//si', 'href="../', $sitetemplate);
-$sitetemplate=preg_replace('/href="..\/http/si', 'href="http', $sitetemplate);
-
-//replace last bits: img src
-$sitetemplate=preg_replace('/src="images/si', 'src="../images', $sitetemplate);
-$sitetemplate=preg_replace('/<!-- START EMBED -->/si', '<!-- START EMBED -->', $sitetemplate);
-$sitetemplate=preg_replace('/<!-- END EMBED -->/si', '<!-- END EMBED -->', $sitetemplate);
-
-//creates bits for the had and the body
-$sitetemplate_head = preg_replace('/<\/head>.*$/s', '', $sitetemplate);
-$sitetemplate_top=preg_replace('/<!-- START EMBED -->.*$/s', '', $sitetemplate);
-
-//replicats info fot the body tag atributes
-preg_match('/<body([^>]+)>/', $sitetemplate, $sitetemplate_body_pre) ;
-$sitetemplate_body =  $sitetemplate_body_pre['1'];
-$sitetemplate_body = preg_replace('/images/s', '../iimages', $sitetemplate_body);
-
-//strips the head info from the body
-$sitetemplate_top=preg_replace('@<head[^>]*?>.*?<body.*?>@si', '', $sitetemplate_top);
-$sitetemplate_top=preg_replace("@,'images/@si", ",'/images/",  $sitetemplate_top);
-
-//strips the head info from the body
-$sitetemplate_head=preg_replace('@</head>@si', '', $sitetemplate_head);
-$sitetemplate_head=preg_replace('@<head>@si', '', $sitetemplate_head);
-
-//makes the bottom on the page
-$sitetemplate_bottom = preg_replace('/^.*<!-- END EMBED -->/s', '', $sitetemplate);
-
+	//modifying image paths
+	function imgPathMod($path) {
+		$this->template=preg_replace('/src="\//si', 'src="'. $path . '', $this->template);
+		$this->template=preg_replace('/src=".*http/si', 'src="http', $this->template);
+	}
+ /* not sure this is required any more *?
+	$this->template=preg_replace('/<!-- START EMBED -->/si', '<!-- START EMBED -->', $this->template);
+	$this->template=preg_replace('/<!-- END EMBED -->/si', '<!-- END EMBED -->', $this->template);
+*/
+	//grabs all code before </head>
+	function insideHead() {
+		$block = preg_replace('/.*<\/head>/s', '', $this->template);
+		return $block;
+	}
+	//Gets all code before the <!-- START EMBED -->
+	function  top() {
+		preg_match('/(.+)<!-- START EMBED -->/s', $this->template, $block);
+		return $block[1];
+	}
+	
+	//returns all markup bellow <body> and to the end of <!-- START EMBED -->
+	function bodyTop() {
+		preg_match('/<body?.*>(.+)<!-- START EMBED -->/si', $this->template , $pre);
+		$block = preg_replace('/<body?.*>/si','', $pre[1]);
+		return $block;
+	}
+	
+	//returns all code from <!-- END EMBED --> and on
+	function bottom() {
+		preg_match('/<!-- END EMBED -->(.+)/s', $this->template, $block);
+		return $block[1];
+	}
+	
+	//replicats info for the body tag atributes
+	function bodyAttrb(){
+		preg_match('/<body([^>]+)>/', $this->template, $pre) ;
+		$block =  $pre['1'];
+		return $block;
+	}
+}
 ?>
