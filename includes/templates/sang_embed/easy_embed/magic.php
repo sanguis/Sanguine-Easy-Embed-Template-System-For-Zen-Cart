@@ -5,11 +5,11 @@
 //|http://code.google.com/p/sanguineasyembedtemplatesystem |
 //|Released under the GPL v2                               |
 //|(c)Sanguis Developmet 2008                              |
-//|PLease consider donating to:                            |
+//|Please consider donating to:                            |
 //|josh@sanguisdevelopment.com                             |
-//|via Pay Pal                                       |
+//|via Pay Pal                                             |
 //+--------------------------------------------------------+
-#$Id: magic.php 8 2008-09-11 00:16:37Z sanguisdex $
+#$Id: magic.php 18 2009-05-11 15:03:59Z sanguisdex $
 
 class sangEmbed {
 	function __construct() {
@@ -39,6 +39,7 @@ class sangEmbed {
 	}
 	function stripHtmlTags(){
 		$this->template=preg_replace('/<html.*?>\n/si', '', $this->template);
+		$this->template=preg_replace('/<\/html>\n/si', '', $this->template);
 	}
 	function stripTitleTag(){
 		$this->template=preg_replace('/<title.*?title>\n/si', '', $this->template);
@@ -55,13 +56,12 @@ class sangEmbed {
 		$this->template=preg_replace('/src="\//si', 'src="'. $path . '', $this->template);
 		$this->template=preg_replace('/src=".*http/si', 'src="http', $this->template);
 	}
- /* not sure this is required any more *?
-	$this->template=preg_replace('/<!-- START EMBED -->/si', '<!-- START EMBED -->', $this->template);
-	$this->template=preg_replace('/<!-- END EMBED -->/si', '<!-- END EMBED -->', $this->template);
-*/
+
 	//grabs all code before </head>
 	function insideHead() {
-		$block = preg_replace('/.*<\/head>/s', '', $this->template);
+		preg_match('/<head>.*<\/head>/s', $this->template, $head);
+    $strip = array('/<head>/', '/<\/head>/');
+    $block = preg_replace($strip, '', $head[0]);
 		return $block;
 	}
 	//Gets all code before the <!-- START EMBED -->
@@ -73,7 +73,8 @@ class sangEmbed {
 	//returns all markup bellow <body> and to the end of <!-- START EMBED -->
 	function bodyTop() {
 		preg_match('/<body?.*>(.+)<!-- START EMBED -->/si', $this->template , $pre);
-		$block = preg_replace('/<body?.*>/si','', $pre[1]);
+    //print_r($pre);
+		$block = preg_replace('/<body.*?>/si','', $pre[0]);
 		return $block;
 	}
 	

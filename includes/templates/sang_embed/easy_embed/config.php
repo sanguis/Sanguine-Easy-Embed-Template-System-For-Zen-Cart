@@ -9,10 +9,11 @@
 //|josh@sanguisdevelopment.com                             |
 //|via paypal                                              |
 //+--------------------------------------------------------+
-#$Id: config.php 24 2008-06-26 18:08:47Z sanguisdex $
+#$Id: config.php 19 2009-05-14 15:54:43Z sanguisdex $
+
 
 //For examples of how to set this see readme.txt; chaper II, step 1
-$this->templateFile = '';
+ $this->templateFile= '';
 
 //content modifcatactions:
 #set values to true/false to modify unless other wise 
