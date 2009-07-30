@@ -16,7 +16,14 @@ class sangEmbed {
 		require_once (dirname(__FILE__) .'/config.php');
 		//todo add and altennative if the template file is not found
 		$file = fopen($this->templateFile, 'r');
-		$this->template = fread($file, filesize($this->templateFile));
+		if (0 === strpos($this->templateFile,'http://') || 0===strpos($this->templateFile,'https://'))
+		{
+			$this->template = stream_get_contents($file);
+		}
+		else
+		{
+			$this->template = fread($file, filesize($this->templateFile));
+		}
 		fclose($file);
 		ob_start();
 		eval ('?>' . $this->template);
