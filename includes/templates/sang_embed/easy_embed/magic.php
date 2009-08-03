@@ -16,6 +16,16 @@ class sangEmbed {
 		require_once (dirname(__FILE__) .'/config.php');
 		//todo add and altennative if the template file is not found
 		$file = fopen($this->templateFile, 'r');
+		if ($file==false)
+		{
+			echo "Could not open the file. <br/>Please check that <br/>".$this->templateFile
+			."<br/> defined as templateFile in ".dirname(__FILE__) ."/config.php  exists.";
+			if (0 === strpos($this->templateFile,'http://') || 0===strpos($this->templateFile,'https://'))
+			{
+				echo "<br/>Please check the server has allow_url_fopen enabled in the php configuration";
+			}
+			die();
+		}		
 		if (0 === strpos($this->templateFile,'http://') || 0===strpos($this->templateFile,'https://'))
 		{
 			$this->template = stream_get_contents($file);
