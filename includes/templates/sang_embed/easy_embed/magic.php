@@ -43,8 +43,8 @@ class sangEmbed {
 		if ($this->options['stripMetaData'] == true) $this->stripMetaData();
 		if ($this->options['stripHtmlTags'] == true) $this->stripHtmlTags();
 		if ($this->options['stripTitleTag'] == true) $this->stripTitleTag();
-		if (!empty($this->options['linkPathMod'])) $this->linkPathMod($path);
-		if (!empty($this->options['imgPathMod'])) $this->imgPathMod($path);
+		if (!empty($this->options['hrefPathMod'])) $this->hrefPathMod($path);
+		if (!empty($this->options['srcPathMod'])) $this->srcPathMod($path);
 	}  
 
 	//striping tags
@@ -79,6 +79,7 @@ class sangEmbed {
 		preg_match('/<head>.*<\/head>/s', $this->template, $head);
     $strip = array('/<head>/', '/<\/head>/');
     $block = preg_replace($strip, '', $head[0]);
+    $block .= "\n<meta name=\"generator\" content=\"Sanguine Easy Embed Template for Drupal\" />\n";
 		return $block;
 	}
 	//Gets all code before the <!-- START EMBED -->
